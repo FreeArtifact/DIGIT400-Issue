@@ -1,40 +1,43 @@
 import * as THREE from "three";
 
-const w = window.innerWidth * 0.95;
-const h = window.innerHeight * 0.95;
+const w = window.innerWidth;
+const h = window.innerHeight;
 const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(w, h);
 
 document.body.appendChild(renderer.domElement);
 
-const fov = 100;
+const fov = 75;
 const aspect = w / h;
 const near = 0.1;
-const far = 100;
+const far = 10;
 
 const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
 
 // renderer.setPixelRatio(window.devicePixelRatio);
-
+camera.position.z = 2.25;
 const scene = new THREE.Scene();
 
-camera.position.z = 2.25;
-
-const geo = new THREE.IcosahedronGeometry(1.0, 2);
-const mat = new THREE.MeshBasicMaterial({
+const geo = new THREE.BoxGeometry(1, 1, 1);
+const mat = new THREE.MeshStandardMaterial({
   color: 0x1591df,
-  flatshading: true,
+  // flatshading: true,
 });
 const mesh = new THREE.Mesh(geo, mat);
 scene.add(mesh);
 
-const hemiLight = new THREE.HemisphereLight(0xab006c, 0xe68e00);
+const hemiLight = new THREE.HemisphereLight(0xab006c, 0xe26e00, 50.0);
 scene.add(hemiLight);
-
-// This confirms I'm having a JS problem and not positioning
-const lightHelper = new THREE.PointLightHelper(pointLight);
-scene.add(lightHelper);
 
 // Maybe try enabling gpu?
 
-renderer.render(scene, camera);
+function animate(t = 0) {
+  requestAnimationFrame(animate);
+  mesh.rotation.y = t * 0.0002;
+  mesh.rotation.x = t * 0.0002;
+  // mesh.scale.setScalar(Math.cos(t * 0.001) + 1.0);
+  renderer.render(scene, camera);
+  controls.update();
+}
+
+animate();
