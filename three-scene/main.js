@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
 const w = window.innerWidth;
 const h = window.innerHeight;
@@ -54,6 +55,9 @@ const gridHelper = new THREE.GridHelper(200, 100);
 scene.add(gridHelper);
 const chapel = new THREE.TextureLoader().load("images/prochilo.jpg");
 scene.background = chapel;
+const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
+controls.dampingFactor = 0.03;
 
 // Maybe try enabling gpu?
 
@@ -64,6 +68,7 @@ function animate(t = 0) {
   sphereMesh.rotation.y = t * -0.0002;
   // mesh.scale.setScalar(Math.cos(t * 0.001) + 1.0);
   renderer.render(scene, camera);
+  controls.update();
 }
 
 animate();
