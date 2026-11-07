@@ -18,16 +18,28 @@ const camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
 camera.position.z = 2.25;
 const scene = new THREE.Scene();
 
+// Geometry
 const geo = new THREE.BoxGeometry(1, 1, 1);
+const sphere = new THREE.SphereGeometry(0.75);
+
+// Materials
 const mat = new THREE.MeshStandardMaterial({
   color: 0x1591df,
-  // flatshading: true,
 });
+const mat2 = new THREE.MeshStandardMaterial({ color: 0x159fdf });
+
+// Meshes
 const mesh = new THREE.Mesh(geo, mat);
 scene.add(mesh);
+const sphereMesh = new THREE.Mesh(sphere, mat2);
+scene.add(sphereMesh);
 
 const hemiLight = new THREE.HemisphereLight(0xab006c, 0xe26e00, 50.0);
 scene.add(hemiLight);
+
+// Transformations
+mesh.position.x = -1;
+sphereMesh.position.x = 1;
 
 // Maybe try enabling gpu?
 
